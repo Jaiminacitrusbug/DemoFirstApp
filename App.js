@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -6,87 +7,91 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import type {Node} from 'react';
+import React, {useState} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
+  TextInput,
+  Image,
   View,
+  Button,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+const App = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [successText, setSuccessText] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const handleLogin = () => {
+    if (email === 'admin@gmail.com' && password === 'admin@123') {
+      setIsLogin(false);
+      setSuccessText('Login Successfully');
+    } else {
+      setSuccessText('Your email or password is incorrect');
+    }
   };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
+    <>
+      <ScrollView>
         <View
           style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignContent: 'center',
           }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+          <Text>Login Form</Text>
+
+          <Image
+            source={{
+              uri: 'https://reactnative.dev/docs/assets/p_cat2.png',
+            }}
+            style={{width: 200, height: 200}}
+          />
+          <TextInput
+            style={{
+              height: 40,
+              borderColor: 'gray',
+              borderWidth: 1,
+              marginBottom: 15,
+              width: 200,
+            }}
+            // allowFontScaling={false}
+            // autoCapitalize="words"
+            // textContentType="emailAddress"
+            // multiline
+            // blurOnSubmit
+            // contextMenuHidden
+            // disableFullscreenUI
+            // editable={false}
+            onSubmitEditing={() => setSuccessText('hello')}
+            value={email}
+            onChangeText={text => setEmail(text)}
+            placeholder="Enter Email"
+          />
+          <TextInput
+            style={{
+              height: 40,
+              borderColor: 'gray',
+              borderWidth: 1,
+              marginBottom: 15,
+              width: 200,
+            }}
+            textContentType="password"
+            value={password}
+            onChangeText={text => setPassword(text)}
+            placeholder="Enter Password"
+          />
+          <Button
+            title="Login"
+            disabled={!isLogin}
+            onPress={() => handleLogin()}
+          />
+          <Text>{successText}</Text>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </>
   );
 };
 
